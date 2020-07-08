@@ -1,9 +1,19 @@
 package com.cimb.sProject.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Transactions {
@@ -14,6 +24,15 @@ public class Transactions {
 	private boolean statusPayment;
 	private String trasactionDate;
 	private String trasactionDateDone;
+	
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	@JoinColumn(name = "user_id")
+	private User user;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "transactions", cascade = CascadeType.ALL)
+	@JsonIgnore
+	private List<TransactionDetails> transansactionDetails;
+	
 	public int getId() {
 		return id;
 	}

@@ -15,8 +15,6 @@ import com.cimb.sProject.Dao.UserRepo;
 import com.cimb.sProject.entity.User;
 import com.cimb.sProject.util.EmailUtil;
 
-
-
 @RestController
 @CrossOrigin
 @RequestMapping("/user")
@@ -28,6 +26,8 @@ public class UserController {
 	@Autowired
 	private EmailUtil emailUtil;
 	
+	
+	// Register User 
 	@PostMapping
 	public User registerUser(@RequestBody User user) {
 //		Optional<User> findUser = userRepo.findByUsername(user.getUsername());
@@ -43,7 +43,6 @@ public class UserController {
 		// Simpan verifyToken di database
 		user.setVerifyToken(verifyToken);
 		user.setRole("user");
-		
 		User savedUser = userRepo.save(user);
 		savedUser.setPassword(null);
 		
@@ -75,6 +74,7 @@ public class UserController {
 		return "Sukses!";
 	}
 	
+	// Login User
 	@GetMapping("/login")
 	public User getLoginUser(@RequestParam String userName, @RequestParam String password) {
 		User findUser = userRepo.findByUserName(userName).get();
